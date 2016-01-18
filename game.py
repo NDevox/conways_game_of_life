@@ -10,7 +10,7 @@ class Game():
     True and False.
     """
 
-    def __init__(self, rows, cols):
+    def __init__(self, rows=10, cols=10):
         """
         Initialiser creates a blank board.
 
@@ -25,21 +25,21 @@ class Game():
         """
         Assigns a starting shape onto the board.
 
-        Note: this will not blank the board, it will only place co-ordinates on the board as alive.
+        Note: this will not blank the board, it will only place the given co-ordinates on the board as alive.
 
-        :param args: co-ordinates to be placed on the board.
+        :param args: list of tuples, co-ordinates to be placed on the board.
         """
         for row, col in args:
             self.board[row][col] = 'o'
 
     def alive_next(self, cell_row, cell_col):
         """
-        Takes the a current cell and finds it's neighbours. then calculates how many neighbours are dead or alive.
+        Takes the a current cell and finds it's neighbours. Then calculates how many neighbours are dead or alive.
 
-        If neighbour doesn't exist (i.e. it's edge of board) than assume dead.
+        If neighbour doesn't exist (i.e. it's edge of board) then assumes that neighbour is dead.
 
         :param cell_row: int, current cells row
-        :param cell_col: int, current cols column
+        :param cell_col: int, current cells column
         :return: str, either o or . depending on aliveness.
         """
         neighbours = ((-1, -1), (-1, 0), (-1, 1),
@@ -51,10 +51,10 @@ class Game():
                 if self.board[cell_row + nrow][cell_col + ncol] == 'o':
                     count += 1
             except IndexError:
-                # We are at the edge of the board, assume dead.
+                # We are at the edge of the board, assume neighbouring cell is dead.
                 continue
             if count > 3:
-                # already past 3 so will always be dead, let's save a bit of time.
+                # Already past 3 so will always be dead, let's save a bit of time.
                 return '.'
 
         if count == 3 or (count == 2 and self.board[cell_row][cell_col] == 'o'):
